@@ -16,30 +16,28 @@ public class EmployeeTest {
     e2.ssn = "456-78-901";
     e2.yearOfBirth = 1974;
 
-    System.out.println("Name: " + e1.name);
-    System.out.println("SSN: " + e1.ssn);
-    System.out.println("Email Address: " + e1.emailAddress);
-    System.out.println("Year Of Birth: " + e1.yearOfBirth);
-
-    System.out.println("Name: " + e2.name);
-    System.out.println("SSN: " + e2.ssn);
-    System.out.println("Email Address: " + e2.emailAddress);
-    System.out.println("Year Of Birth: " + e2.yearOfBirth);
-  
-  
-    Employee e3 = e1;
-    e3.name = "test";
+    e1.print();
+    e2.print();
     
-    System.out.println("New Name: " + e1.name);
-    System.out.println("New Name: " + e3.name);
+    System.out.println();
 
-    System.out.println("e1==e2: " + (e1 == e2) );
-    System.out.println("e1==e3: " + (e1 == e3) );
-
-  }
-
-  public void changeSomething() {
+    // wrong way
+    e1.vacationDays = 99;
+    // right way
+    Employee.vacationDays = 99;
     
-  }
+    e1.name = "Moo";
+    // Employee.name = "moo";
+    
+    e1.print();
+    e2.print();
+    
+    
+    e1.setEmailAddress("asdf");
 
+    // Do not reference this way.
+    e1.setVacationDays(123);
+    // Do it this way.
+    Employee.setVacationDays(123);
+  }
 }
