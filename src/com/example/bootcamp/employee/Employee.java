@@ -1,28 +1,63 @@
 package com.example.bootcamp.employee;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 public class Employee {
 
-  static int vacationDays = 10;
+  private static int baseVacationDays = 10;
   
-  String name;
-  String ssn;
-  String emailAddress;
-  int yearOfBirth;
-
+  private String name;
+  private String ssn;
+  private String emailAddress;
+  private int yearOfBirth;
+  private int extraVacationDays;
+  private List<Integer> agesOfChildren;
+  
   void print() {
-    System.out.println("Name: " + name);
-    System.out.println("SSN: " + ssn);
-    System.out.println("Email Address: " + emailAddress);
-    System.out.println("Year Of Birth: " + yearOfBirth);
-    System.out.println("Vacation days: " + vacationDays);
+    print(null);
+  }
+  
+  void print(String header) {
+    print(header, null);
+  }
+  
+  void print(String header, String footer) {
+    if (header != null) {
+      System.out.println(header);
+    }
+    System.out.println("Name: " + getName());
+    System.out.println("SSN: " + getSsn());
+    System.out.println("Email Address: " + getEmailAddress());
+    System.out.println("Year Of Birth: " + getYearOfBirth());
+    System.out.println("Base Vacation days: " + getBaseVacationDays());
+    System.out.println("Extra Vacation days: " + getExtraVacationDays());
+    System.out.println("Childen: " + getAgesOfChildren());
+    if (footer != null) {
+      System.out.println(footer);
+    }
   }
 
-  public int getVacationDays() {
-    return vacationDays;
+  public List<Integer> getAgesOfChildren() {
+    return agesOfChildren;
   }
 
-  public static void setVacationDays(int vacationDays) {
-    Employee.vacationDays = vacationDays;
+  public void setAgesOfChildren(Integer...agesOfChildren) {
+    this.agesOfChildren = Arrays.asList(agesOfChildren);
+  }
+
+  public void setAgesOfChildren(Collection<Integer> agesOfChildren) {
+    this.agesOfChildren = new ArrayList<>(agesOfChildren);
+  }
+
+  public static int getBaseVacationDays() {
+    return baseVacationDays;
+  }
+
+  public static void setBaseVacationDays(int baseVacationDays) {
+    Employee.baseVacationDays = baseVacationDays;
   }
 
   public String getName() {
@@ -56,6 +91,18 @@ public class Employee {
   public void setYearOfBirth(int yearOfBirth) {
     this.yearOfBirth = yearOfBirth;
   }
-  
+
+  public int getExtraVacationDays() {
+    return extraVacationDays;
+  }
+
+  public void setExtraVacationDays(int extraVacationDays) {
+    this.extraVacationDays = extraVacationDays;
+  }
+
+  public int getVactionDays() {
+    return baseVacationDays + extraVacationDays;
+  }
 }
+
 
