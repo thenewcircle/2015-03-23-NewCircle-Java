@@ -3,28 +3,74 @@ package com.example.bootcamp.employee;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Employee {
 
-  private static int baseVacationDays = 10;
+  public static final int BASE_VACATION_DAYS = 10;
   
-  private String name;
-  private String ssn;
-  private String emailAddress;
-  private int yearOfBirth;
+  private final String ssn;
+  private String name = "unknown";
+  private String emailAddress = "unknown";
+  private final int yearOfBirth;
   private int extraVacationDays;
   private List<Integer> agesOfChildren;
+
+  public Employee() {
+    // These two values must be set because
+    // they are declared as final attributes;
+    this.yearOfBirth = 0;
+    this.ssn = null;
+  }
   
-  void print() {
+  public Employee(String ssn, String name) {
+    
+    // Cannot execute code before the "sibling" constructor is called
+    
+    // this is a vialble option, but gets unreadable if too long
+    // this(ssn, (name != null ? name : "Default Name"), null, 0, 0, Collections.emptyList());
+
+    this(validate(ssn), validate(name), null, 0, 0, Collections.emptyList());
+
+    // This validates the value, but AFTER the other constructor did some work
+    name = (name != null ? name : "Default Name");
+    
+    // OK to update after the constructor, but again, possibly overwriding with the other constructor did.
+    name = "Moo";
+  }
+
+  private static String validate(String value) {
+    if (value == null) {
+      throw new IllegalArgumentException("The value must be specified.");
+    } else {
+      return value;
+    }
+  }
+  
+  public Employee(String ssn, String name, String emailAddress, 
+      int yearOfBirth, int extraVacationDays, 
+      List<Integer> agesOfChildren) {
+
+      this.ssn = ssn;
+      this.name = name;
+      this.emailAddress = emailAddress;
+      this.extraVacationDays = extraVacationDays;
+      this.agesOfChildren = agesOfChildren;
+      this.yearOfBirth = yearOfBirth;
+  }
+
+
+  final void print() {
     print(null);
   }
   
-  void print(String header) {
+  final void print(String header) {
     print(header, null);
   }
   
-  void print(String header, String footer) {
+  void print(final String header, String footer) {
+
     if (header != null) {
       System.out.println(header);
     }
@@ -53,27 +99,15 @@ public class Employee {
   }
 
   public static int getBaseVacationDays() {
-    return baseVacationDays;
-  }
-
-  public static void setBaseVacationDays(int baseVacationDays) {
-    Employee.baseVacationDays = baseVacationDays;
+    return BASE_VACATION_DAYS;
   }
 
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
   public String getSsn() {
     return ssn;
-  }
-
-  public void setSsn(String ssn) {
-    this.ssn = ssn;
   }
 
   public String getEmailAddress() {
@@ -88,10 +122,6 @@ public class Employee {
     return yearOfBirth;
   }
 
-  public void setYearOfBirth(int yearOfBirth) {
-    this.yearOfBirth = yearOfBirth;
-  }
-
   public int getExtraVacationDays() {
     return extraVacationDays;
   }
@@ -101,7 +131,15 @@ public class Employee {
   }
 
   public int getVactionDays() {
-    return baseVacationDays + extraVacationDays;
+    return BASE_VACATION_DAYS + extraVacationDays;
+  }
+
+  public static Employee createEmployeeWithEmail(String ssn, String emailAddress, int yearOfBirth, Integer...ageOfChildren) {
+    return new Employee(ssn, null, emailAddress, yearOfBirth, 0, Arrays.asList(ageOfChildren));
+  }
+
+  public static Employee createEmployeeWithName(String ssn, String name, int yearOfBirth, Integer...ageOfChildren) {
+    return new Employee(ssn, ssn, null, yearOfBirth, 0, Arrays.asList(ageOfChildren));
   }
 }
 
