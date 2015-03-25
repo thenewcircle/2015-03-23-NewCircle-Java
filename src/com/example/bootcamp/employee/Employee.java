@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Employee {
 
-  public static final int BASE_VACATION_DAYS = 10;
+  public static int BASE_VACATION_DAYS = 10;
   
   private final String ssn;
   private String name = "unknown";
@@ -17,12 +17,12 @@ public class Employee {
   private int extraVacationDays;
   private List<Integer> agesOfChildren;
 
-  public Employee() {
-    // These two values must be set because
-    // they are declared as final attributes;
-    this.yearOfBirth = 0;
-    this.ssn = null;
-  }
+//  public Employee() {
+//    // These two values must be set because
+//    // they are declared as final attributes;
+//    this.yearOfBirth = 0;
+//    this.ssn = null;
+//  }
   
   public Employee(String ssn, String name) {
     
@@ -39,14 +39,6 @@ public class Employee {
     // OK to update after the constructor, but again, possibly overwriding with the other constructor did.
     name = "Moo";
   }
-
-  private static String validate(String value) {
-    if (value == null) {
-      throw new IllegalArgumentException("The value must be specified.");
-    } else {
-      return value;
-    }
-  }
   
   public Employee(String ssn, String name, String emailAddress, 
       int yearOfBirth, int extraVacationDays, 
@@ -60,6 +52,13 @@ public class Employee {
       this.yearOfBirth = yearOfBirth;
   }
 
+  private static String validate(String value) {
+    if (value == null) {
+      throw new IllegalArgumentException("The value must be specified.");
+    } else {
+      return value;
+    }
+  }
 
   final void print() {
     print(null);
@@ -80,6 +79,7 @@ public class Employee {
     System.out.println("Year Of Birth: " + getYearOfBirth());
     System.out.println("Base Vacation days: " + getBaseVacationDays());
     System.out.println("Extra Vacation days: " + getExtraVacationDays());
+    System.out.println("Total Vacation days: " + getVactionDays());
     System.out.println("Childen: " + getAgesOfChildren());
     if (footer != null) {
       System.out.println(footer);

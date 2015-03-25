@@ -24,5 +24,35 @@ public class EmployeeTest {
     e2.print("==Employee of the Month", "===============");
     System.out.println();
 
+    Manager m1 = new Manager("Bob", "345-11-987", "Development");
+    m1.setResponsibility("I do whatever I want");
+    m1.setExtraVacationDays(20);
+    m1.print("BIG BOSS", "=======");
+
+    Employee e3 = m1;
+    e3.print("UNKNOWN Employee", "======");
+
+    System.out.println("e2: " + e1.getClass().getName());
+    
+    Manager m2 = (Manager)e3;
+    System.out.println("m2: " + m2.getClass().getName());
+    
+    Object o1 = m1;
+    System.out.println("o1: " + o1.getClass().getName());
+    
+    // Manager m4 = (Integer)o1;
+    // Integer i = (Integer)o1;
+    // System.out.println(i);
+    
+    if (e1 instanceof Manager) {
+      Manager m3 = (Manager)e1;
+      System.out.println("Wow, e1 realy was a maanger");
+      System.out.println("e1: " + e1.getClass().getName());
+    
+    } else {
+      System.out.println("I guess e1 wasn't a manager");
+      System.out.println("e1: " + e1.getClass().getName());
+    }
+    
   }
 }
