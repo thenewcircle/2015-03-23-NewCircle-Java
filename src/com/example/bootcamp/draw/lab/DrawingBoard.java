@@ -14,5 +14,5 @@ public interface DrawingBoard {
   void setPenStroke(Stroke stroke);
   void setFill(Paint paint);
   void setRenderingHint(Key hintKey, Object hintValue);
-  
+  void setText(String text, Color textColor, int x, int y);
 }

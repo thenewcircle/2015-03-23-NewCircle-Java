@@ -3,6 +3,7 @@ package com.example.bootcamp.draw.lab;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.Point;
 import java.awt.RenderingHints.Key;
 import java.awt.Shape;
 import java.awt.Stroke;
@@ -12,6 +13,11 @@ public class Graphics2dDrawingBoard implements DrawingBoard {
   private Paint fill;
   private Color penColor;
   private Stroke stroke;
+  
+  private String text;
+  private int textX;
+  private int textY;
+  private Color textColor;
   
   private Key hintKey;
   private Object hintValue;
@@ -32,6 +38,11 @@ public class Graphics2dDrawingBoard implements DrawingBoard {
     
     graphics.setColor(penColor);
     graphics.draw(shape);
+  
+    if (text != null) {
+      graphics.setColor(textColor);
+      graphics.drawString(text, textX, textY);
+    }
   }
 
   @Override
@@ -53,6 +64,14 @@ public class Graphics2dDrawingBoard implements DrawingBoard {
   public void setRenderingHint(Key hintKey, Object hintValue) {
     this.hintKey = hintKey;
     this.hintValue = hintValue;
+  }
+
+  @Override
+  public void setText(String text, Color textColor, int x, int y) {
+    this.text = text;
+    this.textColor = textColor;
+    this.textX = x;
+    this.textY = y;
   }
 }
 

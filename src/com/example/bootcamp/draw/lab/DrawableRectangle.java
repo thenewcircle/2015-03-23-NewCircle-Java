@@ -10,6 +10,7 @@ import java.util.List;
 
 public class DrawableRectangle implements Drawable {
 
+  private final Point center;
   private final List<Point> points = new ArrayList<>();
   private final List<Decorator> decorators = new ArrayList<>();
   
@@ -19,6 +20,7 @@ public class DrawableRectangle implements Drawable {
 
   public DrawableRectangle(int centerX, int centerY, int width, int height, Collection<? extends Decorator> decorators) {
     this.decorators.addAll(decorators);
+    this.center = new Point(centerX, centerY);
     
     int x = centerX - (width/2);
     int y = centerY - (width/2);
@@ -29,6 +31,16 @@ public class DrawableRectangle implements Drawable {
     points.add(new Point(x+width, y));
   }
 
+  @Override
+  public String getName() {
+    return "Rectangle";
+  }
+  
+  @Override
+  public Point getCenter() {
+    return center;
+  }
+  
   @Override
   public void draw(DrawingBoard drawingBoard) {
 

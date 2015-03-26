@@ -41,6 +41,7 @@ public class GraphicsEngine extends JFrame {
       drawingBoard.setFill(Color.white);
       drawingBoard.setPenColor(Color.black);
       drawingBoard.setPenStroke(new BasicStroke(1));
+      drawingBoard.setText(null,  null, 0, 0);
       
       for (Decorator decorator : drawable.getDecorators()) {
         decorator.decorate(drawingBoard, drawable);
