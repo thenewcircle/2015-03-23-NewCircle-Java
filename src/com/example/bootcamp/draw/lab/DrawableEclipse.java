@@ -15,6 +15,7 @@ public class DrawableEclipse implements Drawable {
   private int height;
   
   private final List<Decorator> decorators = new ArrayList<>();
+  private final EclipseDrawingStrategy eclipseStrategy = new EclipseDrawingStrategy();
   
   public DrawableEclipse(int centerX, int centerY, int width, int height, 
                          Decorator...decorator) {
@@ -42,9 +43,7 @@ public class DrawableEclipse implements Drawable {
   
   @Override
   public void draw(DrawingBoard drawingBoard) {
-    System.out.printf("%s %s %s %s", x, y, width, height);
-    Ellipse2D elipse = new Ellipse2D.Double(x, y, width, height); 
-    drawingBoard.drawShape(elipse);  
+    eclipseStrategy.draw(drawingBoard, x, y, width, height);
   }
 
   @Override

@@ -20,7 +20,9 @@ public class LineDrawingStrategy {
       polygon.lineTo(point.getX(), point.getY());
     };
 
-    polygon.closePath();
+    if (close) {
+      polygon.closePath();
+    }
 
     drawingBoard.drawShape(polygon);  
   }

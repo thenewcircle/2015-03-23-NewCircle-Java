@@ -24,7 +24,7 @@ public class DrawableRectangle implements Drawable {
     this.center = new Point(centerX, centerY);
 
     int x = centerX - (width/2);
-    int y = centerY - (width/2);
+    int y = centerY - (height/2);
     
     points.add(new Point(x, y));
     points.add(new Point(x, y+height));
