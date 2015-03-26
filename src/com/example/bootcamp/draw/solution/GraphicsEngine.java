@@ -1,4 +1,4 @@
-package com.example.bootcamp.draw.lab;
+package com.example.bootcamp.draw.solution;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 
 public class GraphicsEngine extends JFrame {
 
-  // This is thread safe collection simmilar to ArrayList
   private final CopyOnWriteArrayList<Drawable> drawables = new CopyOnWriteArrayList<>();
   
   public GraphicsEngine() {
@@ -34,7 +33,6 @@ public class GraphicsEngine extends JFrame {
     graphics.setColor(Color.white);
     graphics.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
 
-    // This is the adapter pattern
     DrawingBoard drawingBoard = new Graphics2dDrawingBoard(graphics);
 
     for (Drawable drawable : drawables) {
@@ -42,8 +40,7 @@ public class GraphicsEngine extends JFrame {
       drawingBoard.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
       drawingBoard.setFill(Color.white);
       drawingBoard.setPenColor(Color.black);
-      drawingBoard.setPenStroke(new BasicStroke(1));
-      drawingBoard.setText(null,  null, 0, 0);
+      drawingBoard.setPenStroke(new BasicStroke(5));
       
       for (Decorator decorator : drawable.getDecorators()) {
         decorator.decorate(drawingBoard, drawable);
