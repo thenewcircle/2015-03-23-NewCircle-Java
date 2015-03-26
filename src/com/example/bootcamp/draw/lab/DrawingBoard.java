@@ -10,7 +10,7 @@ public interface DrawingBoard {
 
   void drawShape(Shape shape);
 
-  void setPenColor(Color color);
+  void setPenColor(Color rgb);
   void setPenStroke(Stroke stroke);
   void setFill(Paint paint);
   void setRenderingHint(Key hintKey, Object hintValue);

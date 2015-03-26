@@ -1,9 +1,11 @@
-package com.example.bootcamp.draw.lab;
+package com.example.bootcamp.draw.lab.decorator;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 
-public class PenSizeDecorator implements Decorator {
+import com.example.bootcamp.draw.lab.DrawingBoard;
+import com.example.bootcamp.draw.lab.drawable.Drawable;
+
+/*package*/ class PenSizeDecorator implements Decorator {
 
   private final int size;
   

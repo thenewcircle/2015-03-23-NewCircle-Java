@@ -11,6 +11,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JFrame;
 
+import com.example.bootcamp.draw.lab.decorator.Decorator;
+import com.example.bootcamp.draw.lab.drawable.Drawable;
+
 public class GraphicsEngine extends JFrame {
 
   // This is thread safe collection simmilar to ArrayList

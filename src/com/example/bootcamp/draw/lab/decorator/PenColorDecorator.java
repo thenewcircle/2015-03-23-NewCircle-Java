@@ -1,8 +1,11 @@
-package com.example.bootcamp.draw.lab;
+package com.example.bootcamp.draw.lab.decorator;
 
 import java.awt.Color;
 
-public class PenColorDecorator implements Decorator {
+import com.example.bootcamp.draw.lab.DrawingBoard;
+import com.example.bootcamp.draw.lab.drawable.Drawable;
+
+/*pacakge*/ class PenColorDecorator implements Decorator {
 
   private final Color color;
   

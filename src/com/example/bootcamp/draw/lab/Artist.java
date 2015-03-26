@@ -5,6 +5,11 @@ import java.awt.Point;
 import java.util.Arrays;
 import java.util.List;
 
+import com.example.bootcamp.draw.lab.decorator.Decorator;
+import static com.example.bootcamp.draw.lab.decorator.DrawUtils.*;
+import com.example.bootcamp.draw.lab.drawable.*;
+
+
 public class Artist {
 
   public static void main(String...args) {
@@ -15,12 +20,12 @@ public class Artist {
 
     int startX = 50;
     
-    PrintNameDecorator nameDecorator = new PrintNameDecorator(Color.black);
+    Decorator nameDecorator = name(Color.black);
     DrawableStickMan stickMan = new DrawableStickMan(startX, 700, nameDecorator);
     
     List<Drawable> drawables = Arrays.asList(
-        new DrawableRectangle(300, 300, 100, 200, nameDecorator, new PenColorDecorator(Color.red), new SolidFillDecorator(Color.magenta)),
-        new DrawableSquare(600, 600, 100, nameDecorator, new SolidFillDecorator(Color.green)),
+        new DrawableRectangle(300, 300, 100, 200, nameDecorator, pen(Color.red), fill(Color.magenta)),
+        new DrawableSquare(600, 600, 100, nameDecorator, fill(Color.green)),
         new DrawableLine(new Point(200,300), new Point(600,600), nameDecorator),
         new DrawableCircle(500, 300, 25, nameDecorator),
         new DrawableEclipse(600, 300, 25, 100, nameDecorator),

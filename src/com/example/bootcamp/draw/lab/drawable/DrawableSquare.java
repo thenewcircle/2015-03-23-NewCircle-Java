@@ -1,7 +1,9 @@
-package com.example.bootcamp.draw.lab;
+package com.example.bootcamp.draw.lab.drawable;
 
 import java.util.Arrays;
 import java.util.Collection;
+
+import com.example.bootcamp.draw.lab.decorator.Decorator;
 
 public class DrawableSquare extends DrawableRectangle {
 

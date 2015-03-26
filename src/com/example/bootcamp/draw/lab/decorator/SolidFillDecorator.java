@@ -1,9 +1,11 @@
-package com.example.bootcamp.draw.lab;
+package com.example.bootcamp.draw.lab.decorator;
 
-import java.awt.Color;
 import java.awt.Paint;
 
-public class SolidFillDecorator implements Decorator {
+import com.example.bootcamp.draw.lab.DrawingBoard;
+import com.example.bootcamp.draw.lab.drawable.Drawable;
+
+class SolidFillDecorator implements Decorator {
 
   private final Paint paint;
   

@@ -1,9 +1,12 @@
-package com.example.bootcamp.draw.lab;
+package com.example.bootcamp.draw.lab.decorator;
 
 import java.awt.Color;
 import java.awt.Point;
 
-public class PrintNameDecorator implements Decorator {
+import com.example.bootcamp.draw.lab.DrawingBoard;
+import com.example.bootcamp.draw.lab.drawable.Drawable;
+
+class PrintNameDecorator implements Decorator {
 
   private final Color color;
   
