@@ -10,6 +10,7 @@ import java.util.List;
 
 public class DrawableRectangle implements Drawable {
 
+  private final LineDrawingStrategy strategy = new LineDrawingStrategy();
   private final Point center;
   private final List<Point> points = new ArrayList<>();
   private final List<Decorator> decorators = new ArrayList<>();
@@ -19,12 +20,9 @@ public class DrawableRectangle implements Drawable {
   }
 
   public DrawableRectangle(int centerX, int centerY, int width, int height, Collection<? extends Decorator> decorators) {
-    // Defensive copy
     this.decorators.addAll(decorators);
-    //this.decorators = decorators;
-    
     this.center = new Point(centerX, centerY);
-    
+
     int x = centerX - (width/2);
     int y = centerY - (width/2);
     
@@ -38,7 +36,7 @@ public class DrawableRectangle implements Drawable {
   public String getName() {
     return "Rectangle";
   }
-  
+
   @Override
   public Point getCenter() {
     return center;
@@ -46,21 +44,22 @@ public class DrawableRectangle implements Drawable {
   
   @Override
   public void draw(DrawingBoard drawingBoard) {
-
-    GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD, points.size());
-
-    Iterator<Point> it = points.iterator();
-    Point point = it.next();
-    polygon.moveTo(point.getX(), point.getY());
+    strategy.draw(drawingBoard, true, points);
     
-    while (it.hasNext()) {
-      point = it.next();
-      polygon.lineTo(point.getX(), point.getY());
-    };
-
-    polygon.closePath();
-
-    drawingBoard.drawShape(polygon);  
+//    GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD, points.size());
+//
+//    Iterator<Point> it = points.iterator();
+//    Point point = it.next();
+//    polygon.moveTo(point.getX(), point.getY());
+//    
+//    while (it.hasNext()) {
+//      point = it.next();
+//      polygon.lineTo(point.getX(), point.getY());
+//    };
+//
+//    polygon.closePath();
+//
+//    drawingBoard.drawShape(polygon);  
   }
 
   @Override
