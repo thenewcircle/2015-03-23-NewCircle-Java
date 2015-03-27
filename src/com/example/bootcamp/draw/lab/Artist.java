@@ -46,35 +46,38 @@ public class Artist {
     
     engine = new GraphicsEngine(drawables);
     
- // Animator is a named inner class with areference
- // It is possible to instanciate multiple instances of this
- // class, but it is arguably more objects to be created, 
- // that is one new object for every new thread. Because
- // this class is crated in the method, no one outside
- // of the method can use it.
+ // Now we can replace the Runnable class and all the boiler 
+ // plate that comes with a lambda expression. The lambda will
+ // assume the same signature of the Runnable because it is 
+ // a "functional interface".
+ // 
+ // A functional interface is any interface that contains only 
+ // one abstract method. (A functional interface may contain 
+ // one or more default methods or static methods.) A good 
+ // example of default method is forEach(..);
 
-    // Runnable runnable = new Runnable() {
-    class Animator implements Runnable {
-      @Override
-      public void run() {
-        try {
-          Drawable drawable;
-          for (;;) {
-            drawable = drawables.take();
-            engine.repaint();
-            Thread.sleep(random.nextInt(2_000));
-            drawables.put(drawable);
-            Thread.sleep(random.nextInt(2_000));
-          }        
-        } catch (InterruptedException e) {
-          Thread.interrupted();
-        }
+//    class Animator implements Runnable {
+//      @Override
+//      public void run() {
+
+    Runnable runnable = () -> {
+      try {
+        Drawable drawable;
+        for (;;) {
+          drawable = drawables.take();
+          engine.repaint();
+          Thread.sleep(random.nextInt(2_000));
+          drawables.put(drawable);
+          Thread.sleep(random.nextInt(2_000));
+        }        
+      } catch (InterruptedException e) {
+        Thread.interrupted();
       }
-    };
+    }; 
     
-    new Thread(new Animator()).start();
-    new Thread(new Animator()).start();
-    new Thread(new Animator()).start();
+    new Thread(runnable).start();
+    new Thread(runnable).start();
+    new Thread(runnable).start();
   }
 }
 
