@@ -5,7 +5,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.SortedSet;
@@ -46,22 +48,46 @@ public class Artist {
     
     Decorator nameDecorator = name(Color.black);
 
-    int x = 0;
-    final int step = 200;
-    final int y = 300;
+    Map<ShapeType, List<Drawable>> map = new EnumMap<>(ShapeType.class);
     
-    List<Drawable> temp = Arrays.asList(
-        new DrawableRectangle(x += step, y, 100, 200, nameDecorator, pen(Color.red), fill(Color.magenta)),
-        new DrawableSquare(x += step, y, 100, nameDecorator, fill(Color.green)),
-        new DrawableLine(new Point(x += step, y), new Point(x += step, y), nameDecorator, fill(Color.blue)),
+    int x = 0;
+    int y = 100;
+    final int step = 200;
+    
+    map.put(ShapeType.Circle, Arrays.asList(
         new DrawableCircle(x += step, y, 25, nameDecorator, fill(Color.red)),
         new DrawableCircle(x += step, y, 25, nameDecorator, fill(Color.yellow)),
-        new DrawableEclipse(x += step, y, 25, 100, nameDecorator, fill(Color.black))
-    );
-   
-    SortedSet<Drawable> set = new TreeSet<>(temp);
+        new DrawableCircle(x += step, y, 25, nameDecorator, fill(Color.green)),
+        new DrawableCircle(x += step, y, 25, nameDecorator, fill(Color.blue)),
+        new DrawableCircle(x += step, y, 25, nameDecorator, fill(Color.black))
+    ));
 
-    drawables = new LinkedBlockingQueue<Drawable>(temp);
+    x = 0;
+    y += 10;
+    
+    map.put(ShapeType.Eclipse, Arrays.asList(
+        new DrawableEclipse(x += step, y, 25, 100, nameDecorator, fill(Color.black)),
+        new DrawableEclipse(x += step, y, 25, 100, nameDecorator, fill(Color.red)),
+        new DrawableEclipse(x += step, y, 25, 100, nameDecorator, fill(Color.yellow)),
+        new DrawableEclipse(x += step, y, 25, 100, nameDecorator, fill(Color.green)),
+        new DrawableEclipse(x += step, y, 25, 100, nameDecorator, fill(Color.blue))
+    ));
+
+    x = 0;
+    y += 10;
+    
+    map.put(ShapeType.Square, Arrays.asList(
+        new DrawableSquare(x += step, y, 100, nameDecorator, fill(Color.blue)),
+        new DrawableSquare(x += step, y, 100, nameDecorator, fill(Color.green)),
+        new DrawableSquare(x += step, y, 100, nameDecorator, fill(Color.yellow)),
+        new DrawableSquare(x += step, y, 100, nameDecorator, fill(Color.red)),
+        new DrawableSquare(x += step, y, 100, nameDecorator, fill(Color.black))
+    ));
+    
+
+    List<Drawable> list = map.get(ShapeType.Circle);
+    
+    drawables = new LinkedBlockingQueue<Drawable>(list);
     engine = new GraphicsEngine(drawables);
 
   
