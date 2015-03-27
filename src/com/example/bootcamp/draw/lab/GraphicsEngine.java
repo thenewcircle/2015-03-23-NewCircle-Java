@@ -17,18 +17,16 @@ import com.example.bootcamp.draw.lab.drawable.Drawable;
 public class GraphicsEngine extends JFrame {
 
   // This is thread safe collection simmilar to ArrayList
-  private final CopyOnWriteArrayList<Drawable> drawables = new CopyOnWriteArrayList<>();
+  private final Collection<? extends Drawable> drawables;
   
-  public GraphicsEngine() {
+  public GraphicsEngine(Collection<? extends Drawable> drawables) {
     super("Graphics Engine");
     setVisible(true);
     setSize(640, 480);
     setExtendedState(JFrame.MAXIMIZED_BOTH );
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  }
-
-  public void setDrawables(Collection<? extends Drawable> drawables) {
-    this.drawables.addAll(drawables);
+  
+    this.drawables = drawables;
   }
 
   public void paint(Graphics g) {
