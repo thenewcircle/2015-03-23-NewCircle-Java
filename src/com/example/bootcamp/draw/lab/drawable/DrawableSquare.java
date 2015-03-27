@@ -23,4 +23,14 @@ public class DrawableSquare extends DrawableRectangle {
   public String getName() {
     return "Square";
   }
+
+  @Override
+  public int compareTo(Drawable that) {
+    return this.getShapeType().compareTo(that.getShapeType());
+  }
+
+  @Override
+  public ShapeType getShapeType() {
+    return ShapeType.Square;
+  }
 }

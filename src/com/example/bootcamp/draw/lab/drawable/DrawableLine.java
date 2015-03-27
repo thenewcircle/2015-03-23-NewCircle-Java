@@ -61,4 +61,14 @@ public class DrawableLine implements Drawable {
   public Collection<Decorator> getDecorators() {
     return decorators;
   }
+
+  @Override
+  public int compareTo(Drawable that) {
+    return this.getShapeType().compareTo(that.getShapeType());
+  }
+
+  @Override
+  public ShapeType getShapeType() {
+    return ShapeType.Line;
+  }
 }

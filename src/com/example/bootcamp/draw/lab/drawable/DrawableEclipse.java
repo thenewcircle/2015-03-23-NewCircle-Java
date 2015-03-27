@@ -91,4 +91,13 @@ public class DrawableEclipse implements Drawable {
     return true;
   }
 
+  @Override
+  public int compareTo(Drawable that) {
+    return this.getShapeType().compareTo(that.getShapeType());
+  }
+
+  @Override
+  public ShapeType getShapeType() {
+    return ShapeType.Eclipse;
+  }
 }

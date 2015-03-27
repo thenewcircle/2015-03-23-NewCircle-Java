@@ -6,8 +6,10 @@ import java.util.Collection;
 import com.example.bootcamp.draw.lab.DrawingBoard;
 import com.example.bootcamp.draw.lab.decorator.Decorator;
 
-public interface Drawable {
+public interface Drawable extends Comparable<Drawable> {
 
+  ShapeType getShapeType();
+  
   Point getCenter();
   
   void draw(DrawingBoard drawingBoard);

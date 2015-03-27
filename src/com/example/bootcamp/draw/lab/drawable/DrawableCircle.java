@@ -19,4 +19,14 @@ public class DrawableCircle extends DrawableEclipse {
   public String getName() {
     return "Circle";
   }
+
+  @Override
+  public int compareTo(Drawable that) {
+    return this.getShapeType().compareTo(that.getShapeType());
+  }
+
+  @Override
+  public ShapeType getShapeType() {
+    return ShapeType.Circle;
+  }
 }

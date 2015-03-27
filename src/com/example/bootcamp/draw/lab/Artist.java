@@ -2,9 +2,14 @@ package com.example.bootcamp.draw.lab;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -35,28 +40,33 @@ public class Artist {
   private GraphicsEngine engine;
   private Random random = new Random(System.currentTimeMillis());
 
-  //ExecutorService service = Executors.newWorkStealingPool();
-  ScheduledExecutorService scheduledService = Executors.newScheduledThreadPool(drawables.size());
+  ExecutorService service = Executors.newWorkStealingPool();
   
   private void run() throws Exception {
     
     Decorator nameDecorator = name(Color.black);
+
+    int x = 0;
+    final int step = 200;
+    final int y = 300;
     
-//    List<Drawable> drawables = Arrays.asList(
     List<Drawable> temp = Arrays.asList(
-        new DrawableRectangle(300, 300, 100, 200, nameDecorator, pen(Color.red), fill(Color.magenta)),
-        new DrawableSquare(600, 600, 100, nameDecorator, fill(Color.green)),
-        new DrawableLine(new Point(200,300), new Point(600,600), nameDecorator),
-        new DrawableCircle(500, 300, 25, nameDecorator),
-        new DrawableEclipse(600, 300, 25, 100, nameDecorator)
+        new DrawableRectangle(x += step, y, 100, 200, nameDecorator, pen(Color.red), fill(Color.magenta)),
+        new DrawableSquare(x += step, y, 100, nameDecorator, fill(Color.green)),
+        new DrawableLine(new Point(x += step, y), new Point(x += step, y), nameDecorator, fill(Color.blue)),
+        new DrawableCircle(x += step, y, 25, nameDecorator, fill(Color.red)),
+        new DrawableCircle(x += step, y, 25, nameDecorator, fill(Color.yellow)),
+        new DrawableEclipse(x += step, y, 25, 100, nameDecorator, fill(Color.black))
     );
-    
+   
+    SortedSet<Drawable> set = new TreeSet<>(temp);
+
     drawables = new LinkedBlockingQueue<Drawable>(temp);
     engine = new GraphicsEngine(drawables);
 
   
     ScheduledExecutorService scheduledService = Executors.newScheduledThreadPool(drawables.size());
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 1; i++) {
       scheduledService.scheduleAtFixedRate(this::animate, 0, 1, TimeUnit.NANOSECONDS);
     };
   }
@@ -66,9 +76,9 @@ public class Artist {
       Drawable drawable;
       drawable = drawables.take();
       engine.repaint();
-      Thread.sleep(random.nextInt(2_000));
+      Thread.sleep(500);
       drawables.put(drawable);
-      Thread.sleep(random.nextInt(2_000));  
+      Thread.sleep(500);  
 
     } catch (Exception e) {
       e.printStackTrace();
