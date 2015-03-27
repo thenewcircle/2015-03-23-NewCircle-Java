@@ -6,7 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
 
 import com.example.bootcamp.draw.lab.decorator.Decorator;
 
@@ -29,7 +34,10 @@ public class Artist {
   private GraphicsEngine engine;
   private Random random = new Random(System.currentTimeMillis());
 
-  private void run() {
+  ExecutorService service = Executors.newWorkStealingPool();
+  // ScheduledExecutorService scheduledService = Executors.newScheduledThreadPool(drawables.size());
+  
+  private void run() throws Exception {
     
     Decorator nameDecorator = name(Color.black);
     
@@ -46,38 +54,36 @@ public class Artist {
     
     engine = new GraphicsEngine(drawables);
     
- // Now we can replace the Runnable class and all the boiler 
- // plate that comes with a lambda expression. The lambda will
- // assume the same signature of the Runnable because it is 
- // a "functional interface".
- // 
- // A functional interface is any interface that contains only 
- // one abstract method. (A functional interface may contain 
- // one or more default methods or static methods.) A good 
- // example of default method is forEach(..);
+// Instead of using Thread and Runnable, let's use an 
+// ExecutorService which gives us the ability to get
+// a Future object back
 
-//    class Animator implements Runnable {
-//      @Override
-//      public void run() {
-
-    Runnable runnable = () -> {
-      try {
-        Drawable drawable;
-        for (;;) {
-          drawable = drawables.take();
-          engine.repaint();
-          Thread.sleep(random.nextInt(2_000));
-          drawables.put(drawable);
-          Thread.sleep(random.nextInt(2_000));
-        }        
-      } catch (InterruptedException e) {
-        Thread.interrupted();
-      }
+    // Runnable runnable = () -> {
+    Callable<Void> callable = ()-> {
+      Drawable drawable;
+      for (;;) {
+        drawable = drawables.take();
+        engine.repaint();
+        Thread.sleep(random.nextInt(2_000));
+        drawables.put(drawable);
+        Thread.sleep(random.nextInt(2_000));
+      }        
     }; 
     
-    new Thread(runnable).start();
-    new Thread(runnable).start();
-    new Thread(runnable).start();
+    // Now schedule execution of each callable.
+    List<Future<Void>> futures = service.invokeAll(Arrays.asList(
+        callable, callable, callable
+    ));
+
+    // Blocks until all threads are done. Once they are, force them to caugh up their exception
+    futures.forEach(   (Future<Void> f)->{ 
+      try {
+        f.get();
+      } catch (Exception e) {
+        e.printStackTrace();
+      } 
+    });
+  
   }
 }
 
