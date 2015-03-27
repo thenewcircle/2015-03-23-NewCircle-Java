@@ -46,10 +46,10 @@ public class Artist {
     
     engine = new GraphicsEngine(drawables);
     
- // Runnable is an annonoumous inner class witout reference
- // It is impossible to resuse any of this code. In order
- // to have multiples, I will have to copy and paste the entire block
-    new Thread(new Runnable() {
+ // Runnable is an annonoumous inner class with areference
+ // It is impossible to instanciate a secodn instance of this
+ // class, but I can reuse the reference "runnable".
+    Runnable runnable = new Runnable() {
       @Override
       public void run() {
         try {
@@ -65,9 +65,12 @@ public class Artist {
           Thread.interrupted();
         }
       }
-    }).start();
+    };
+    
+    new Thread(runnable).start();
+    new Thread(runnable).start();
+    new Thread(runnable).start();
   }
-  
 }
 
 
