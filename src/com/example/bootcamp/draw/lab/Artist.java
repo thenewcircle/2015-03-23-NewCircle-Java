@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.example.bootcamp.draw.lab.decorator.Decorator;
 
@@ -51,62 +52,24 @@ public class Artist {
     );
     
     drawables = new LinkedBlockingQueue<Drawable>(temp);
-    
     engine = new GraphicsEngine(drawables);
-    
-// Instead of using Thread and Runnable, let's use an 
-// ExecutorService which gives us the ability to get
-// a Future object back
 
-//    Callable<Void> callable = ()-> {
-//      Drawable drawable;
-//      for (;;) {
-//        drawable = drawables.take();
-//        engine.repaint();
-//        Thread.sleep(random.nextInt(2_000));
-//        drawables.put(drawable);
-//        Thread.sleep(random.nextInt(2_000));
-//      }        
-//    }; 
-//    
-//    // Now schedule execution of each callable.
-//    List<Future<Void>> futures = service.invokeAll(Arrays.asList(
-//        callable, callable, callable
-//    ));
-//
-//    // Blocks until all threads are done. Once they are, force them to caugh up their exception
-//    futures.forEach(   (Future<Void> f)->{ 
-//      try {
-//        f.get();
-//      } catch (Exception e) {
-//        e.printStackTrace();
-//      } 
-//    });
   
-    List<Future<Void>> futures = service.invokeAll(Arrays.asList(
-        this::animate,
-        this::animate, 
-        this::animate
-        ));
-
-    futures.forEach(Artist::checkForException);
+    ScheduledExecutorService scheduledService = Executors.newScheduledThreadPool(drawables.size());
+    for (int i = 0; i < 100; i++) {
+      scheduledService.scheduleAtFixedRate(this::animate, 0, 1, TimeUnit.NANOSECONDS);
+    };
   }
-
-  private Void animate() throws Exception {
-    Drawable drawable;
-    for (;;) {
+  
+  private void animate() {
+    try {
+      Drawable drawable;
       drawable = drawables.take();
       engine.repaint();
       Thread.sleep(random.nextInt(2_000));
       drawables.put(drawable);
-      Thread.sleep(random.nextInt(2_000));
-    }        
-  }
-  
-  // This doesn't have to be static.
-  private static void checkForException(Future<Void> future) {
-    try {
-      future.get();
+      Thread.sleep(random.nextInt(2_000));  
+
     } catch (Exception e) {
       e.printStackTrace();
     }
