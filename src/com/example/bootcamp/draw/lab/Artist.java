@@ -34,8 +34,8 @@ public class Artist {
   private GraphicsEngine engine;
   private Random random = new Random(System.currentTimeMillis());
 
-  ExecutorService service = Executors.newWorkStealingPool();
-  // ScheduledExecutorService scheduledService = Executors.newScheduledThreadPool(drawables.size());
+  //ExecutorService service = Executors.newWorkStealingPool();
+  ScheduledExecutorService scheduledService = Executors.newScheduledThreadPool(drawables.size());
   
   private void run() throws Exception {
     
@@ -58,32 +58,58 @@ public class Artist {
 // ExecutorService which gives us the ability to get
 // a Future object back
 
-    // Runnable runnable = () -> {
-    Callable<Void> callable = ()-> {
-      Drawable drawable;
-      for (;;) {
-        drawable = drawables.take();
-        engine.repaint();
-        Thread.sleep(random.nextInt(2_000));
-        drawables.put(drawable);
-        Thread.sleep(random.nextInt(2_000));
-      }        
-    }; 
-    
-    // Now schedule execution of each callable.
-    List<Future<Void>> futures = service.invokeAll(Arrays.asList(
-        callable, callable, callable
-    ));
-
-    // Blocks until all threads are done. Once they are, force them to caugh up their exception
-    futures.forEach(   (Future<Void> f)->{ 
-      try {
-        f.get();
-      } catch (Exception e) {
-        e.printStackTrace();
-      } 
-    });
+//    Callable<Void> callable = ()-> {
+//      Drawable drawable;
+//      for (;;) {
+//        drawable = drawables.take();
+//        engine.repaint();
+//        Thread.sleep(random.nextInt(2_000));
+//        drawables.put(drawable);
+//        Thread.sleep(random.nextInt(2_000));
+//      }        
+//    }; 
+//    
+//    // Now schedule execution of each callable.
+//    List<Future<Void>> futures = service.invokeAll(Arrays.asList(
+//        callable, callable, callable
+//    ));
+//
+//    // Blocks until all threads are done. Once they are, force them to caugh up their exception
+//    futures.forEach(   (Future<Void> f)->{ 
+//      try {
+//        f.get();
+//      } catch (Exception e) {
+//        e.printStackTrace();
+//      } 
+//    });
   
+    List<Future<Void>> futures = service.invokeAll(Arrays.asList(
+        this::animate,
+        this::animate, 
+        this::animate
+        ));
+
+    futures.forEach(Artist::checkForException);
+  }
+
+  private Void animate() throws Exception {
+    Drawable drawable;
+    for (;;) {
+      drawable = drawables.take();
+      engine.repaint();
+      Thread.sleep(random.nextInt(2_000));
+      drawables.put(drawable);
+      Thread.sleep(random.nextInt(2_000));
+    }        
+  }
+  
+  // This doesn't have to be static.
+  private static void checkForException(Future<Void> future) {
+    try {
+      future.get();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
 
