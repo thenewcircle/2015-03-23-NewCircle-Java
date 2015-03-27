@@ -63,7 +63,7 @@ public class Artist {
     ));
 
     x = 0;
-    y += 10;
+    y += step;
     
     map.put(ShapeType.Eclipse, Arrays.asList(
         new DrawableEclipse(x += step, y, 25, 100, nameDecorator, fill(Color.black)),
@@ -74,7 +74,7 @@ public class Artist {
     ));
 
     x = 0;
-    y += 10;
+    y += step;
     
     map.put(ShapeType.Square, Arrays.asList(
         new DrawableSquare(x += step, y, 100, nameDecorator, fill(Color.blue)),
@@ -85,8 +85,30 @@ public class Artist {
     ));
     
 
-    List<Drawable> list = map.get(ShapeType.Circle);
+    List<Drawable> list = new ArrayList<>();
+
+    for (List<Drawable> temp : map.values()) {
+      list.addAll(temp);
+    }
     
+    
+/*    for (ShapeType type : map.keySet()) {
+      List<Drawable> temp = map.get(type);
+      list.addAll(temp);
+    }
+*/    
+/*    for (Map.Entry<ShapeType, List<Drawable>> entry : map.entrySet()) {
+      ShapeType type = entry.getKey();
+      List<Drawable> temp = entry.getValue();
+      list.addAll(temp);
+      
+//      Object o = entry.getValue();
+//      List l = (List)o;
+//      for (Object ox : l) {
+//        Drawable d = (Drawable)ox;
+//      }
+    }
+*/    
     drawables = new LinkedBlockingQueue<Drawable>(list);
     engine = new GraphicsEngine(drawables);
 
