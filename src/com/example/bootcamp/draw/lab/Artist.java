@@ -46,10 +46,15 @@ public class Artist {
     
     engine = new GraphicsEngine(drawables);
     
- // Runnable is an annonoumous inner class with areference
- // It is impossible to instanciate a secodn instance of this
- // class, but I can reuse the reference "runnable".
-    Runnable runnable = new Runnable() {
+ // Animator is a named inner class with areference
+ // It is possible to instanciate multiple instances of this
+ // class, but it is arguably more objects to be created, 
+ // that is one new object for every new thread. Because
+ // this class is crated in the method, no one outside
+ // of the method can use it.
+
+    // Runnable runnable = new Runnable() {
+    class Animator implements Runnable {
       @Override
       public void run() {
         try {
@@ -67,9 +72,9 @@ public class Artist {
       }
     };
     
-    new Thread(runnable).start();
-    new Thread(runnable).start();
-    new Thread(runnable).start();
+    new Thread(new Animator()).start();
+    new Thread(new Animator()).start();
+    new Thread(new Animator()).start();
   }
 }
 
