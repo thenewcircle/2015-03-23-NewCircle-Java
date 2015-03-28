@@ -1,8 +1,13 @@
 package com.example.bootcamp.employee;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Parameter;
 import java.util.Collections;
 
 // import org.junit.Assert;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +15,33 @@ import org.junit.Test;
 
 public class EmployeeTest {
 
+  @Test
+  public void reflectionsTest() throws Exception {
+    
+    Employee e2 = new Employee("555-45-4533", "John Doe");
+ 
+    Constructor<?>[] constructors = Employee.class.getConstructors();
+    for (Constructor constructor : constructors) {
+      System.out.println(constructor);
+      Parameter[] parameters = constructor.getParameters();
+      for (Parameter parameter : parameters) {
+        System.out.println("  " + parameter);
+        Annotation[] annotations = parameter.getAnnotations();
+      }
+    }
+
+    // DB magic
+    String column1 = "Mickey Mouse";
+    String column2 = "123-64-5666";
+    
+    Constructor<Employee> constructor = Employee.class.getConstructor(String.class, String.class);
+    constructor.setAccessible(true);
+    Employee e1 = constructor.newInstance(column2, column1);
+    e1.print();
+
+    // e1.getClass()...
+  }
+  
   @Test
   public void testEmployee() {
     Employee e1 = Employee.createEmployeeWithName("555-12-345", "John", 1995);

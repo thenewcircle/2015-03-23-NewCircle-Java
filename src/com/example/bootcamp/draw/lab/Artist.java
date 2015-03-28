@@ -44,6 +44,10 @@ public class Artist {
 
   ExecutorService service = Executors.newWorkStealingPool();
   
+  /**
+   * <br>
+   * @throws Exception
+   */
   private void run() throws Exception {
     
     Decorator nameDecorator = name(Color.black);
@@ -87,9 +91,12 @@ public class Artist {
 
     List<Drawable> list = new ArrayList<>();
 
-    for (List<Drawable> temp : map.values()) {
-      list.addAll(temp);
-    }
+    // map.entrySet().stream().filter(es -> es.getKey() != ShapeType.Circle).forEach(es -> list.addAll(es.getValue()));
+    
+    map.entrySet()
+       .stream()
+       .filter( entry -> entry.getKey().isCircle() )
+       .forEach( entry -> list.addAll(entry.getValue()) );
     
     
 /*    for (ShapeType type : map.keySet()) {

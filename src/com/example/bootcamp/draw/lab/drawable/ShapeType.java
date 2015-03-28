@@ -22,4 +22,28 @@ public enum ShapeType {
   public String toString() {
     return getLabel();
   }
+
+  public boolean isCircle() {
+    return this == Circle;
+  }
+
+  public boolean isEclipse() {
+    return this == Eclipse;
+  }
+
+  public boolean isSquare() {
+    return this == Square;
+  }
+
+  public boolean isRectangle() {
+    return this == Rectangle;
+  }
+  
+  public boolean isLine() {
+    return this == Line;
+  }
+  
+  public boolean isStickMan() {
+    return this == StickMan;
+  }
 }
