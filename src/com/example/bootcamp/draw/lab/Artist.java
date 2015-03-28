@@ -91,11 +91,9 @@ public class Artist {
 
     List<Drawable> list = new ArrayList<>();
 
-    // map.entrySet().stream().filter(es -> es.getKey() != ShapeType.Circle).forEach(es -> list.addAll(es.getValue()));
-    
     map.entrySet()
        .stream()
-       .filter( entry -> entry.getKey().isCircle() )
+       .filter( entry -> entry.getKey().isNotCircle() )
        .forEach( entry -> list.addAll(entry.getValue()) );
     
     

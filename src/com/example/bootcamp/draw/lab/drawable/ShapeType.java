@@ -27,6 +27,10 @@ public enum ShapeType {
     return this == Circle;
   }
 
+  public boolean isNotCircle() {
+    return this != Circle;
+  }
+
   public boolean isEclipse() {
     return this == Eclipse;
   }
